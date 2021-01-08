@@ -1,0 +1,9 @@
+# IDEs
+.idea/
+
+# Ansible
+**/*.retry
+
+# Python
+.venv/
+**/__pycache__/
