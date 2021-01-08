@@ -37,11 +37,17 @@ TBC
 
 ## Development
 
-TBC
+If you want to develop new content for this collection or improve what is already here, the easiest way to work on the collection is to clone it into one of the default [`COLLECTIONS_PATH`](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#collections-paths), and work on it there.
+
+```bash
+git clone git@github.com:UKCloud/ukcloud.pingdom.git ~/.ansible/collections/ansible_collections/ukcloud/pingdom
+```
+
+You can find more information in the [developer guide for collections](https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html#contributing-to-collections), and in the [Ansible Community Guide](https://docs.ansible.com/ansible/latest/community/index.html).
 
 ## Testing
 
-TBC
+See [here](https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html#testing-collections).
 
 ## Contributing
 
