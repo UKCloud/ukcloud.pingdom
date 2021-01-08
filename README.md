@@ -2,6 +2,10 @@
 
 An Ansible Collection for managing SolarWinds Pingdom site monitoring. This collection has lookups for reading details from Pingdom as well as modules to create, modify and delete objects in Pingdom.
 
+## Pre-release
+
+Note this repo is at a pre-release stage. Plugin names and parameters are likely to continue to change until this reaches the first major release 1.0.0
+
 ## Using this collection
 
 Run `ansible-galaxy collection install git+https://github.com/UKCloud/ukcloud.pingdom` to install this collection.
