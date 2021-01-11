@@ -27,7 +27,16 @@ TBC
 
 ### maintenance_window
 
-TBC
+This module is used to create a maintenance window for a specified uptime id, or multiple uptime id's separated by a ','. This module requires the following variables to work:
+
+apikey - Api key for Pingdom
+uptimeid - Uptime id(s) for the required window. Multiple uptime id's separated with ','
+name - The name for the maintenance window
+start - The start time for the maintenance window in minutes from the current time
+duration - The duration of the maintenance window in minutes
+
+Once created, the module will verify that the maintenance window has been created and 
+output the window's information back to ansible.
 
 ## Lookups
 
