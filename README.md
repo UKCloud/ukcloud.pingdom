@@ -23,11 +23,19 @@ pip3 install -e ~/code/pingdompy
 
 ### uptime_check
 
-TBC
+This module is used to create a check from the given variables. Further variables can be implemented if required, for a full list, see [https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post](https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post) for a full list. Variables currently implemented into the module are as follows:
+
+apikey - Api key for Pingdom
+url - Url of the host to check, eg www.google.com ('host' in the pingdom api docs)
+name - The name of the check
+protocol - The protocol used for the check, eg http,ping ('type' in the pingdom api docs)
+tags - The tag(s) to add to the check, with each tag separated by a ',' if multiple
+timing - The timing between the check running in minutes ('resolution' in pingdom api docs)
+pause - Not Required. Can be set to "y" to pause the check on creation for testing
 
 ### maintenance_window
 
-This module is used to create a maintenance window for a specified uptime id, or multiple uptime id's separated by a ','. This module requires the following variables to work:
+This module is used to create a maintenance window for a specified uptime id, or multiple uptime id's separated by a ','. See [https://docs.pingdom.com/api/#tag/Maintenance/paths/~1maintenance/post](https://docs.pingdom.com/api/#tag/Maintenance/paths/~1maintenance/post) for a complete list of potential variables. This module requires the following variables to work:
 
 apikey - Api key for Pingdom
 uptimeid - Uptime id(s) for the required window. Multiple uptime id's separated with ','
