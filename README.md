@@ -23,9 +23,12 @@ pip3 install -e ~/code/pingdompy
 
 ### uptime_check
 
-This module is used to create a check from the given variables. Further variables can be implemented if required, for a full list, see [https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post](https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post) for a full list. Variables currently implemented into the module are as follows:
+This module is used to create a check from the given variables. Further variables can be implemented if required, for a full list, see [https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post](https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post) for a full list. 
 
+Required variable:
 apikey - Api key for Pingdom
+
+Optional variables currently implemented into the module:
 url - Url of the host to check, eg www.google.com ('host' in the pingdom api docs)
 name - The name of the check
 protocol - The protocol used for the check, eg http,ping ('type' in the pingdom api docs)
@@ -35,8 +38,9 @@ pause - Not Required. Can be set to "y" to pause the check on creation for testi
 
 ### maintenance_window
 
-This module is used to create a maintenance window for a specified uptime id, or multiple uptime id's separated by a ','. See [https://docs.pingdom.com/api/#tag/Maintenance/paths/~1maintenance/post](https://docs.pingdom.com/api/#tag/Maintenance/paths/~1maintenance/post) for a complete list of potential variables. This module requires the following variables to work:
+This module is used to create a maintenance window for a specified uptime id, or multiple uptime id's separated by a ','. See [https://docs.pingdom.com/api/#tag/Maintenance/paths/~1maintenance/post](https://docs.pingdom.com/api/#tag/Maintenance/paths/~1maintenance/post) for a complete list of potential variables. 
 
+This module requires the following variables to work:
 apikey - Api key for Pingdom
 uptimeid - Uptime id(s) for the required window. Multiple uptime id's separated with ','
 name - The name for the maintenance window
@@ -45,6 +49,18 @@ duration - The duration of the maintenance window in minutes
 
 Once created, the module will verify that the maintenance window has been created and 
 output the window's information back to ansible.
+
+### check_update
+
+This module updates an existing check based on the parameters passed into it. It currently only supports updating a single check, and can only change the host and resolution of the check. For a list of potential variables to be implemented, see [https://docs.pingdom.com/api/#tag/Checks/paths/~1checks~1{checkid}/put](https://docs.pingdom.com/api/#tag/Checks/paths/~1checks~1{checkid}/put).
+
+Requires the following variables:
+apikey - Api key for pingdom
+uptimeid - Uptime id of the check you want to update
+
+Optional variables currently implemented into the module:
+url - Url of the host you want to change the check to
+timing - The timing between the check running in minutes
 
 ## Lookups
 
