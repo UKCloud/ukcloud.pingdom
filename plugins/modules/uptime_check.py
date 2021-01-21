@@ -84,20 +84,15 @@ def main():
         else:
                 check_pause = False
 
-        ## Converts tags into a format pingdompy likes
-        taglist = [ { "name": item} for item in check_tags.split(',')]
-
         ## Creates the check and returns a verification of the check
         check = client.create_check({"host": check_url, "name": check_name, \
-                "type": check_proto, "tags": taglist, "resolution": check_timing, \
+                "type": check_proto, "tags": check_tags, "resolution": check_timing, \
                 "paused": check_pause})
 
-
         ## Returns verification to ansible
-        result = str(check)
         module.exit_json(
                 changed=True,
-                response=result
+                response=check
         )
 
 if __name__ == '__main__':
