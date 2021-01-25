@@ -1,6 +1,6 @@
 FROM python:3.8-ubi7
 WORKDIR /app 
-COPY .
+COPY . .
 CMD ["test.py"]
 ENTRYPOINT ["python3"]
 
