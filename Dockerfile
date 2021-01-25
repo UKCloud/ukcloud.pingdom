@@ -1,4 +1,4 @@
-FROM ubi8/s2i-base:rhel8.3
+FROM python:3.8-ubi7
 WORKDIR /app 
 COPY .
 CMD ["test.py"]
