@@ -45,6 +45,7 @@ notes:
 
 import pingdompy
 import datetime
+import time
 from ansible.module_utils.basic import AnsibleModule
 
 def main():
@@ -58,25 +59,24 @@ def main():
     }
 
     module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
+    ## Assign params to more usable variables
     api_key = module.params['apikey']
     maint_name = module.params['name']
     start_time = module.params['start']
     duration_time = module.params['duration']
     arg_uptimeid = module.params['uptimeid']
 
-    ## This is set to false to disable the ability 
-    ## to search via check name/tag
-    checks = False
-
-    #### Creating window
-    client = pingdompy.Client(apikey=api_key)                       
+    client = pingdompy.Client(apikey=api_key) 
+    ## Calculates the start and end times for the window                      
     start = datetime.datetime.now() + datetime.timedelta(minutes=int(start_time))
     end = start + datetime.timedelta(minutes=int(duration_time))
-    window = client.create_maintenance({"checks": checks, "name": maint_name, \
-            "start": start, "stop": end, "uptime_ids": arg_uptimeid})
+
+    ## Creates window and converts times to something pingdom accepts
+    window = client.create_maintenance({"description": maint_name, \
+            "from": int(time.mktime(start.timetuple())), "to": int(time.mktime(end.timetuple())), "uptimeids": arg_uptimeid})
 
     ## Verification of window creation
-    verify = client.get_maintenance(window._id)
+    verify = client.get_maintenance(window['id'])
 
     ## Return verification to ansible
     module.exit_json(

@@ -43,7 +43,7 @@ import pingdompy
 from ansible.module_utils.basic import AnsibleModule
 
 def main():
-    ## Set input variables
+    ## Set input variables for ansible
     fields = {
                 "apikey": {"type": "str", "required": True, "no_log": True},
                 "uptimeid": {"type": "str", "required": True},
@@ -69,6 +69,7 @@ def main():
     update = client.update_check(check, changes)
     ## Sends response back upto ansible
     module.exit_json(
+        ## if update_check returns a list, then the update worked
         changed = isinstance(update, list),
         response = update
     )

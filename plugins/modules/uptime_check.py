@@ -70,6 +70,7 @@ def main():
         }
 
         module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
+        ## Assign params to more usable variables
         api_key = module.params['apikey']
         check_url = module.params['url']
         check_name = module.params['name']
@@ -84,7 +85,7 @@ def main():
         else:
                 check_pause = False
 
-        ## Creates the check and returns a verification of the check
+        ## Creates the check and returns the new checks id + name
         check = client.create_check({"host": check_url, "name": check_name, \
                 "type": check_proto, "tags": check_tags, "resolution": check_timing, \
                 "paused": check_pause})
