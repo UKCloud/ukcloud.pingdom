@@ -23,7 +23,7 @@ pip3 install -e ~/code/pingdompy
 
 ### uptime_check
 
-This module is used to create a check from the given variables. Further variables can be implemented if required, for a full list, see [https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post](https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post) for a full list. 
+This module is used to create a check from the given variables. Further variables can be implemented if required, for a full list, see [https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post](https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post) for a full list.
 
 Required variable:
 apikey - Api key for Pingdom
@@ -38,7 +38,7 @@ pause - Not Required. Can be set to "y" to pause the check on creation for testi
 
 ### maintenance_window
 
-This module is used to create a maintenance window for a specified uptime id, or multiple uptime id's separated by a ','. See [https://docs.pingdom.com/api/#tag/Maintenance/paths/~1maintenance/post](https://docs.pingdom.com/api/#tag/Maintenance/paths/~1maintenance/post) for a complete list of potential variables. 
+This module is used to create a maintenance window for a specified uptime id, or multiple uptime id's separated by a ','. See [https://docs.pingdom.com/api/#tag/Maintenance/paths/~1maintenance/post](https://docs.pingdom.com/api/#tag/Maintenance/paths/~1maintenance/post) for a complete list of potential variables.
 
 This module requires the following variables to work:
 apikey - Api key for Pingdom
@@ -47,7 +47,7 @@ name - The name for the maintenance window
 start - The start time for the maintenance window in minutes from the current time
 duration - The duration of the maintenance window in minutes
 
-Once created, the module will verify that the maintenance window has been created and 
+Once created, the module will verify that the maintenance window has been created and
 output the window's information back to ansible.
 
 ### check_update
@@ -84,7 +84,11 @@ You can find more information in the [developer guide for collections](https://d
 
 ## Testing
 
-See [here](https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html#testing-collections).
+There are some basic testing playbooks in the /tests folder which exercise the uptime_check and maintenance_window modules. The playbooks require a Pingdom API key is passed in a variable called `vault_apikey`. Ansible Vault is one way to pass in this parameter.
+
+The tests will create uptime checks and maintenance windows in Pingdom which will need to be manually deleted until `state: absent` is implemented in the modules.
+
+See [here](https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html#testing-collections) also.
 
 ## Contributing
 
