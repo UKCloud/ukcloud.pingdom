@@ -1,0 +1,49 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: No
+  vars:
+    apikey: "{{ vault_apikey }}"
+    uptimeid: "7092076"
+    name: "OpenshiftAnsibleTest"
+    start: "60"
+    duration: "1"
+  tasks:
+    - name: Create maintenance window
+      ukcloud.pingdom.maintenance_window:
+#        state: present
+        apikey: "{{ apikey }}"
+        uptimeid: "{{ uptimeid }}"
+        name: "{{ name }}"
+        start: "{{ start }}"
+        duration: "{{ duration }}"
+      register: response
+
+# Example response from ukcloud.pingdom.maintenance_window
+# response:
+#     changed: true
+#     failed: false
+#     response:
+#       maintenance:
+#         checks:
+#           tms: []
+#           uptime:
+#           - 7092076
+#         dayofweekinmonth: 0
+#         description: OpenshiftAnsibleTest
+#         duration: 1
+#         durationunit: minute
+#         effectiveto: 1611242629
+#         from: 1611242569
+#         id: 198005
+#         recurrencetype: none
+#         repeatevery: 0
+#         to: 1611242629
+
+    - name: Assert maintenance window was created successfully
+      ansible.builtin.assert:
+        that:
+        - response['response']['maintenance']['checks']['uptime'] | length == 1
+        - "{{ uptimeid }} in response['response']['maintenance']['checks']['uptime']"
+        - response['response']['maintenance']['description'] == name
+        - response['response']['maintenance']['checks']['tms'] | length == 0
