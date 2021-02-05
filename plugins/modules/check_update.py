@@ -76,6 +76,8 @@ def main():
                 "paused": {"type": "str", "required": False},
         }
     
+    ###### Further variables could be added above if necessary
+
     module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
     ## Removes keys Pingdom won't accept from the dict
     api_key = module.params.pop("apikey")
@@ -90,6 +92,11 @@ def main():
             changes[x] = module.params.get(x)
         else:
             continue
+
+    ###### If a key is given a blank value and passed to pingdom, it will clear that field to default
+    ###### so a system could be added above where if a keyword like 'CLEAR!' is passed in as a 
+    ###### variable, it will send pingdom a blank key pair like: "paused": ""
+
     ## Creates the update and returns an output dependant message
     update = client.update_check(check, changes)
     ## Sends response back upto ansible

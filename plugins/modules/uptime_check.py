@@ -69,6 +69,9 @@ def main():
                 "pause": {"type": "str", "required": False},
         }
 
+        ###### Further variables could be added above and below to allow
+        ###### for more complex checks to be added
+
         module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
         ## Assign params to more usable variables
         api_key = module.params['apikey']
@@ -98,4 +101,3 @@ def main():
 
 if __name__ == '__main__':
         main()
-
