@@ -24,7 +24,15 @@ options:
     uptimeid:
         required: true
         description:
-            - Uptime id(s) for the check to be updated
+            - Uptime id for the check to be updated
+    addtags:
+        required: false
+        description:
+            - Tags to add to the check (use the format: tag1,tag2)
+    tags:
+        required: false
+        description:
+            - Tags to replace the current tags with (use the format: tag1,tag2)
     host:
         required: false
         description:
@@ -33,6 +41,18 @@ options:
         required: false
         description:
             - The timing between the check running in minutes
+    responsetime_threshold:
+        required: false
+        description:
+            - Response time that needs to be exceeded to trigger a down alert
+    teamids:
+        required: false
+        description:
+            - ID of the team to alers (use the format 123,456)
+    paused:
+        required: false
+        description:
+            - Whether the check is paused or not
 notes:
     - Future variables can be added by using their specified pingdom api names and adding
       them to the options and fields section.
@@ -47,8 +67,13 @@ def main():
     fields = {
                 "apikey": {"type": "str", "required": True, "no_log": True},
                 "uptimeid": {"type": "str", "required": True},
+                "addtags": {"type": "str", "required": False},
+                "tags": {"type": "str", "required": False},
                 "host": {"type": "str", "required": False},
+                "responsetime_threshold": {"type": "str", "required": False},
                 "resolution": {"type": "str", "required": False},
+                "teamids": {"type": "str", "required": False},
+                "paused": {"type": "str", "required": False},
         }
     
     module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
