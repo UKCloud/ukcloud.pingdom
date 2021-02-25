@@ -42,7 +42,7 @@ options:
         required: true
         description:
             - The timing between the check running in minutes
-   port:
+    port:
         required: false
         description:
             - The timing between the check running in minutes
