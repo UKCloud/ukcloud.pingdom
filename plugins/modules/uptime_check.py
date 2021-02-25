@@ -42,6 +42,10 @@ options:
         required: true
         description:
             - The timing between the check running in minutes
+   port:
+        required: true
+        description:
+            - The timing between the check running in minutes
     pause:
         required: false
         description:
@@ -66,6 +70,7 @@ def main():
                 "protocol": {"type": "str", "required": True},
                 "tags": {"type": "str", "required": True},
                 "timing": {"type": "str", "required": True},
+                "port": {"type": "str", "required": True},
                 "pause": {"type": "str", "required": False},
         }
 
@@ -80,6 +85,7 @@ def main():
         check_proto = module.params['protocol']
         check_tags = module.params['tags']
         check_timing = module.params['timing']
+        check_port = module.params['port']
         client = pingdompy.Client(apikey=api_key) 
 
         ## Logic allowing for checks to be paused on creation for testing purposes
@@ -91,7 +97,7 @@ def main():
         ## Creates the check and returns the new checks id + name
         check = client.create_check({"host": check_url, "name": check_name, \
                 "type": check_proto, "tags": check_tags, "resolution": check_timing, \
-                "paused": check_pause})
+                "port": check_port, "paused": check_pause})
 
         ## Returns verification to ansible
         module.exit_json(
