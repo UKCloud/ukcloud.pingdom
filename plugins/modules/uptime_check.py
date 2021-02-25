@@ -43,7 +43,7 @@ options:
         description:
             - The timing between the check running in minutes
    port:
-        required: true
+        required: false
         description:
             - The timing between the check running in minutes
     pause:
@@ -70,7 +70,7 @@ def main():
                 "protocol": {"type": "str", "required": True},
                 "tags": {"type": "str", "required": True},
                 "timing": {"type": "str", "required": True},
-                "port": {"type": "str", "required": True},
+                "port": {"type": "str", "required": False},
                 "pause": {"type": "str", "required": False},
         }
 
