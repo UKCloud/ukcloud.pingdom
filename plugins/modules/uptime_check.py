@@ -45,11 +45,15 @@ options:
     port:
         required: true
         description:
-            - The port which will be targetted
+            - The port which will be targeted
     encryption:
         required: true
         description:
-            - The port which will be targetted
+            - Determine whether the connection is encrypted
+    probe_filters:
+        required: false
+        description:
+            - Filters used for probe selection
     pause:
         required: false
         description:
@@ -76,7 +80,8 @@ def main():
                 "timing": {"type": "str", "required": True},
                 "port": {"type": "str", "required": True},
                 "encryption": {"type": "str", "required": True},
-                "verify_certificate": {"type": "str", "required": True},
+                "verify_certificate": {"type": "str", "required": False},
+                "probe_filters": {"type": "str", "required": False},
                 "pause": {"type": "str", "required": False},
         }
 
@@ -94,6 +99,7 @@ def main():
         check_port = module.params['port']
         check_encryption = module.params['encryption']
         check_certificate = module.params['verify_certificate']
+        check_filters = module.params['probe_filters']
         client = pingdompy.Client(apikey=api_key) 
 
         ## Logic allowing for checks to be paused on creation for testing purposes
@@ -105,7 +111,7 @@ def main():
         ## Creates the check and returns the new checks id + name
         check = client.create_check({"host": check_url, "name": check_name, \
                 "type": check_proto, "tags": check_tags, "resolution": check_timing, \
-                "verify_certificate": check_certificate, \
+                "verify_certificate": check_certificate, "probe_filters": check_filters, \
                 "port": check_port, "encryption": check_encryption, "paused": check_pause})
 
         ## Returns verification to ansible
