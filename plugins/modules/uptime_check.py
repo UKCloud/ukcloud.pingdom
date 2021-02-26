@@ -76,6 +76,7 @@ def main():
                 "timing": {"type": "str", "required": True},
                 "port": {"type": "str", "required": True},
                 "encryption": {"type": "str", "required": True},
+                "verify_certificate": {"type": "str", "required": True},
                 "pause": {"type": "str", "required": False},
         }
 
@@ -92,6 +93,7 @@ def main():
         check_timing = module.params['timing']
         check_port = module.params['port']
         check_encryption = module.params['encryption']
+        check_certificate = module.params['verify_certificate']
         client = pingdompy.Client(apikey=api_key) 
 
         ## Logic allowing for checks to be paused on creation for testing purposes
@@ -103,6 +105,7 @@ def main():
         ## Creates the check and returns the new checks id + name
         check = client.create_check({"host": check_url, "name": check_name, \
                 "type": check_proto, "tags": check_tags, "resolution": check_timing, \
+                "verify_certificate": check_certificate, \
                 "port": check_port, "encryption": check_encryption, "paused": check_pause})
 
         ## Returns verification to ansible
