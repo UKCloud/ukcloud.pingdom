@@ -122,7 +122,7 @@ def main():
 
         int_check_ids = []
         for x in check_ids:
-            int_check_ids[x] = int(check_ids[x])
+            int_check_ids.append(int(x))
 
         ## Creates the check and returns the new checks id + name
         check = client.create_check({"host": check_url, "name": check_name, \
