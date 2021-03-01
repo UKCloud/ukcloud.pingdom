@@ -91,7 +91,7 @@ def main():
                 "verify_certificate": {"type": "str", "required": False},
                 "probe_filters": {"type": "str", "required": False},
                 "shouldcontain": {"type": "str", "required": False},
-                "integrationids": {"type": "str", "required": False},
+                "integrationids": {"type": "int", "required": False},
                 "pause": {"type": "str", "required": False},
         }
 
