@@ -54,6 +54,14 @@ options:
         required: false
         description:
             - Filters used for probe selection
+    shouldcontain:
+        required: false
+        description:
+            - The target site should contain this string
+    integrationids:
+        required: false
+        description:
+            - The target site should contain this string
     pause:
         required: false
         description:
@@ -83,6 +91,7 @@ def main():
                 "verify_certificate": {"type": "str", "required": False},
                 "probe_filters": {"type": "str", "required": False},
                 "shouldcontain": {"type": "str", "required": False},
+                "integrationids": {"type": "str", "required": False},
                 "pause": {"type": "str", "required": False},
         }
 
@@ -102,6 +111,7 @@ def main():
         check_certificate = module.params['verify_certificate']
         check_filters = module.params['probe_filters']
         check_contain = module.params['shouldcontain']
+        check_ids = module.params['integrationids']
         client = pingdompy.Client(apikey=api_key) 
 
         ## Logic allowing for checks to be paused on creation for testing purposes
@@ -114,7 +124,7 @@ def main():
         check = client.create_check({"host": check_url, "name": check_name, \
                 "type": check_proto, "tags": check_tags, "resolution": check_timing, \
                 "verify_certificate": check_certificate, "probe_filters": check_filters, \
-                "shouldcontain": check_contain, \
+                "shouldcontain": check_contain, "integrationids": check_ids, \
                 "port": check_port, "encryption": check_encryption, "paused": check_pause})
 
         ## Returns verification to ansible
