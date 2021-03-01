@@ -120,14 +120,15 @@ def main():
         else:
                 check_pause = False
 
+        int_check_ids = []
         for x in check_ids:
-            check_ids[x] = int(check_ids[x])
+            int_check_ids[x] = int(check_ids[x])
 
         ## Creates the check and returns the new checks id + name
         check = client.create_check({"host": check_url, "name": check_name, \
                 "type": check_proto, "tags": check_tags, "resolution": check_timing, \
                 "verify_certificate": check_certificate, "probe_filters": check_filters, \
-                "shouldcontain": check_contain, "integrationids": check_ids, \
+                "shouldcontain": check_contain, "integrationids": int_check_ids, \
                 "port": check_port, "encryption": check_encryption, "paused": check_pause})
 
         ## Returns verification to ansible
