@@ -111,7 +111,7 @@ def main():
         check_certificate = module.params['verify_certificate']
         check_filters = module.params['probe_filters']
         check_contain = module.params['shouldcontain']
-        check_ids = module.params['integrationids'].split(",")
+        check_ids = module.params['integrationids']
         client = pingdompy.Client(apikey=api_key) 
 
         ## Logic allowing for checks to be paused on creation for testing purposes
@@ -119,10 +119,6 @@ def main():
                 check_pause = True
         else:
                 check_pause = False
-
-        int_check_ids = []
-        for x in check_ids:
-            int_check_ids.append(int(x))
 
         ## Creates the check and returns the new checks id + name
         check = client.create_check({"host": check_url, "name": check_name, \
