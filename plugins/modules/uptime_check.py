@@ -61,7 +61,7 @@ options:
     integrationids:
         required: false
         description:
-            - The target site should contain this string
+            - Connect integrated alert webhooks with their IDs
     pause:
         required: false
         description:
@@ -124,7 +124,7 @@ def main():
         check = client.create_check({"host": check_url, "name": check_name, \
                 "type": check_proto, "tags": check_tags, "resolution": check_timing, \
                 "verify_certificate": check_certificate, "probe_filters": check_filters, \
-                "shouldcontain": check_contain, "integrationids": "check_ids", \
+                "shouldcontain": check_contain, "integrationids": check_ids, \
                 "port": check_port, "encryption": check_encryption, "paused": check_pause})
 
         ## Returns verification to ansible
