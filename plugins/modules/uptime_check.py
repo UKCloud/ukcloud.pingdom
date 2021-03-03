@@ -22,7 +22,7 @@ options:
         required: true
         description:
             - api key to auth with Pingdom
-    url:
+    host:
         required: true
         description:
             - Url of the host to check, eg www.google.com
@@ -35,19 +35,19 @@ options:
         description:
             - The protocol used for the check, eg http, ping etc
     tags:
-        required: true
+        required: false
         description:
             - The tag(s) to add to the check separated with ,
     timing:
-        required: true
+        required: false
         description:
             - The timing between the check running in minutes
     port:
-        required: true
+        required: false
         description:
             - The port which will be targeted
     encryption:
-        required: true
+        required: false
         description:
             - Determine whether the connection is encrypted
     probe_filters:
@@ -81,13 +81,13 @@ def main():
         ## Set input variables
         fields = {
                 "apikey": {"type": "str", "required": True, "no_log": True},
-                "url": {"type": "str", "required": True},
+                "host": {"type": "str", "required": True},
                 "name": {"type": "str", "required": True},
                 "protocol": {"type": "str", "required": True},
-                "tags": {"type": "str", "required": True},
-                "timing": {"type": "str", "required": True},
-                "port": {"type": "str", "required": True},
-                "encryption": {"type": "str", "required": True},
+                "tags": {"type": "str", "required": False},
+                "timing": {"type": "str", "required": False},
+                "port": {"type": "str", "required": False},
+                "encryption": {"type": "str", "required": False},
                 "verify_certificate": {"type": "str", "required": False},
                 "probe_filters": {"type": "str", "required": False},
                 "shouldcontain": {"type": "str", "required": False},
@@ -101,14 +101,14 @@ def main():
         module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
         ## Assign params to more usable variables
         api_key = module.params['apikey']
-        check_url = module.params['url']
+        check_host = module.params['host']
         check_name = module.params['name']
         check_proto = module.params['protocol']
         check_tags = module.params['tags']
         check_timing = module.params['timing']
         check_port = module.params['port']
         check_encryption = module.params['encryption']
-        check_certificate = module.params['verify_certificate']
+        check_verification = module.params['verify_certificate']
         check_filters = module.params['probe_filters']
         check_contain = module.params['shouldcontain']
         check_ids = module.params['integrationids']
@@ -121,9 +121,9 @@ def main():
                 check_pause = False
 
         ## Creates the check and returns the new checks id + name
-        check = client.create_check({"host": check_url, "name": check_name, \
+        check = client.create_check({"host": check_host, "name": check_name, \
                 "type": check_proto, "tags": check_tags, "resolution": check_timing, \
-                "verify_certificate": check_certificate, "probe_filters": check_filters, \
+                "verify_certificate": check_verification, "probe_filters": check_filters, \
                 "shouldcontain": check_contain, "integrationids": check_ids, \
                 "port": check_port, "encryption": check_encryption, "paused": check_pause})
 
