@@ -50,6 +50,10 @@ options:
         required: false
         description:
             - Determine whether the connection is encrypted
+    verify_certificate:
+        required: false
+        description:
+            - 
     probe_filters:
         required: false
         description:
@@ -62,6 +66,10 @@ options:
         required: false
         description:
             - Connect integrated alert webhooks with their IDs
+    url:
+        required: false
+        description:
+            - Path to target on server
     pause:
         required: false
         description:
@@ -92,6 +100,7 @@ def main():
                 "probe_filters": {"type": "str", "required": False},
                 "shouldcontain": {"type": "str", "required": False},
                 "integrationids": {"type": "str", "required": False},
+                "url": {"type": "str", "required": False},
                 "pause": {"type": "str", "required": False},
         }
 
@@ -112,6 +121,7 @@ def main():
         check_filters = module.params['probe_filters']
         check_contain = module.params['shouldcontain']
         check_ids = module.params['integrationids']
+        check_url = module.params['url']
         client = pingdompy.Client(apikey=api_key) 
 
         ## Logic allowing for checks to be paused on creation for testing purposes
@@ -124,7 +134,7 @@ def main():
         check = client.create_check({"host": check_host, "name": check_name, \
                 "type": check_proto, "tags": check_tags, "resolution": check_timing, \
                 "verify_certificate": check_verification, "probe_filters": check_filters, \
-                "shouldcontain": check_contain, "integrationids": check_ids, \
+                "shouldcontain": check_contain, "integrationids": check_ids, "url": check_url, \
                 "port": check_port, "encryption": check_encryption, "paused": check_pause})
 
         ## Returns verification to ansible
