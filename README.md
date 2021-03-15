@@ -1,6 +1,6 @@
 # Ansible Collection - ukcloud.pingdom
 
-An Ansible Collection for managing SolarWinds Pingdom site monitoring. This collection has lookups for reading details from Pingdom as well as modules to create, modify and delete objects in Pingdom.
+An Ansible Collection for managing SolarWinds Pingdom site monitoring. This collection has lookups for reading details from Pingdom as well as modules to create uptime checks in Pingdom.
 
 ## Pre-release
 
