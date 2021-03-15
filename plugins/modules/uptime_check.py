@@ -20,58 +20,72 @@ author: Jacob Gibbs (UKCloud Ltd)
 options:
     apikey:
         required: true
+        type: string
         description:
             - The user's API key used to authorize the log in into Pingdom is taken as a string.
     host:
         required: true
+        type: string
         description:
             - The host attribute contains the URL of the destination host which is being targeted by the uptime check. This attribute takes it's value as a string. (e.g. www.google.com).
     name:
         required: true
+        type: string
         description:
             - A name must be given to identify the uptime check as a string. The name does not have to be unique.
     protocol:
         required: true
+        type: string
         description:
             - The type of check taking place must be specified as a string (e.g. http, tcp, ping).
     tags:
         required: false
+        type : array
         description:
             - Tags can be added to an uptime check to make them more organized and discoverable in the user interface. This attribute takes an array of strings where each tag must have a maximum length of 64 characters.
     timing:
         required: false
+        type: integer
         description:
             - The user can specify the number of minutes between each check. This attribute takes an integer, but defaults to 5 if not specified.
     port:
         required: false
+        type: integer
         description:
             - A specific port number can be targetted on the destination URL by setting setting the port number as an integer. 
     encryption:
         required: false
+        type: bool
         description:
             - The user can specify whether the uptime check uses encryption. This attribute takes a boolean (True or False), but defaults to False if not specified.
     verify_certificate:
         required: false
+        type: bool
         description:
             - An uptime check can treat the target site as down if it has an invalid or unverifiable certificate if the boolean verify_certificate attribute is set to True. If not specified, this attribute defaults to False.
     probe_filters:
         required: false
+        type: array
         description:
             - The user can specify filters used for probe selection as an array of strings. Currently only region is supported (e.g. region:EU)
     shouldcontain:
         required: false
+        type: string
         description:
             - The uptime check will only determine that the target site is up if it contains a specified string.
     integrationids:
         required: false
+        type: array
         description:
             - The user can connect integrations which have been set up in the UI to the uptime check by specifying the integration IDs as a list of integers.
     url:
         required: false
+        type: string
         description:
             - A path on the destination server can be set for the uptime check to target. This is taken as a string.
     pause:
         required: false
+        type: bool
         description:
             - This attribute takes a boolean (True/False). If set to True, the created uptime check will not automatically run immediately. If not specified, this attribute defaults to False.
 notes:
