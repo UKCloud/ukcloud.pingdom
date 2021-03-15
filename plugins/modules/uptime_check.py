@@ -73,7 +73,7 @@ options:
     pause:
         required: false
         description:
-            - To pause the uptime check on creation, set the value to "y". If left blank, the uptime check will begin running on creation.
+            - This attribute takes a boolean (True/False). If set to True, the created uptime check will not automatically run. If not specified, this attribute defaults to False.
 notes:
     - More variables can be added following the above formatting and adding
       to the fields section within main
@@ -122,13 +122,8 @@ def main():
         check_contain = module.params['shouldcontain']
         check_ids = module.params['integrationids']
         check_url = module.params['url']
+        check_pause = module.params['pause']
         client = pingdompy.Client(apikey=api_key) 
-
-        ## Logic allowing for checks to be paused on creation for testing purposes
-        if module.params['pause'] == "y":
-                check_pause = True
-        else:
-                check_pause = False
 
         ## Creates the check and returns the new checks id + name
         check = client.create_check({"host": check_host, "name": check_name, \
