@@ -73,7 +73,7 @@ options:
     pause:
         required: false
         description:
-            - This attribute takes a boolean (True/False). If set to True, the created uptime check will not automatically run. If not specified, this attribute defaults to False.
+            - This attribute takes a boolean (True/False). If set to True, the created uptime check will not automatically run immediately. If not specified, this attribute defaults to False.
 notes:
     - More variables can be added following the above formatting and adding
       to the fields section within main
