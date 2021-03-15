@@ -1,6 +1,6 @@
 # Ansible Collection - ukcloud.pingdom
 
-An Ansible Collection for managing SolarWinds Pingdom site monitoring. This collection has lookups for reading details from Pingdom as well as modules to create, modify and delete objects in Pingdom.
+An Ansible Collection for managing SolarWinds Pingdom site monitoring. This collection has lookups for reading details from Pingdom as well as modules to create objects in Pingdom.
 
 ## Pre-release
 
@@ -8,7 +8,10 @@ Note this repo is at a pre-release stage. Plugin names and parameters are likely
 
 ## Using this collection
 
-Run `ansible-galaxy collection install git+https://github.com/UKCloud/ukcloud.pingdom` to install this collection.
+Use the following command to install this collection.
+
+`ansible-galaxy collection install git+https://github.com/UKCloud/ukcloud.pingdom`
+
 
 This collection uses the python `pingdompy` library, the source can be found at [https://github.com/UKCloud/pingdompy](https://github.com/UKCloud/pingdompy). This library needs to be available to the python interpreter running Ansible. One way to do this is to use pip to install Ansible and the pingdompy library.
 
@@ -66,15 +69,11 @@ timing - The timing between the check running in minutes
 
 ### uptime_checks
 
-TBC
-
-### maintenance_windows
-
-TBC
+Once this collection is installed, run `ansible-doc -t lookup ukcloud.pingdom.uptime_checks` to view the documentation for the uptime_checks lookup, which includes examples of how to call this lookup and the structure of the data returned.
 
 ## Development
 
-If you want to develop new content for this collection or improve what is already here, the easiest way to work on the collection is to clone it into one of the default [`COLLECTIONS_PATH`](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#collections-paths), and work on it there.
+If you want to develop new content for this collection or make any changes, the easiest way to work on the collection is to clone it into one of the default [`COLLECTIONS_PATH`](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#collections-paths), and edit it there.
 
 ```bash
 git clone git@github.com:UKCloud/ukcloud.pingdom.git ~/.ansible/collections/ansible_collections/ukcloud/pingdom
@@ -84,9 +83,9 @@ You can find more information in the [developer guide for collections](https://d
 
 ## Testing
 
-There are some basic testing playbooks in the /tests folder which exercise the uptime_check and maintenance_window modules. The playbooks require a Pingdom API key is passed in a variable called `vault_apikey`. Ansible Vault is one way to pass in this parameter.
+There are some basic integration test playbooks in the /tests folder which exercise the uptime_check and maintenance_window modules. The playbooks require a Pingdom API key is passed in a variable called `vault_apikey`. Ansible Vault is one way to pass in this parameter.
 
-The tests will create uptime checks and maintenance windows in Pingdom which will need to be manually deleted until `state: absent` is implemented in the modules.
+The integration tests require a valid Pingdom account and will create uptime checks and maintenance windows in Pingdom which need to be manually deleted afterwards.
 
 See [here](https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html#testing-collections) also.
 
