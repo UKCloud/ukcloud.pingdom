@@ -1,4 +1,5 @@
 ---
+
 - name: Test uptime check functionality
   hosts: localhost
   connection: local
@@ -6,40 +7,36 @@
   vars:
     apikey: "{{ vault_apikey }}"
     check_name: "OpenshiftAnsibleCheckTest created from {{ inventory_hostname }}"
-    check_protocol: http
-    check_tags: ocp-test,pypingdom-test
+    check_protocol: "http"
+    check_tags: "ocp-test,pypingdom-test"
     check_timing: "60"
+    check_port: "8080"
+    check_encryption: "true"
+    check_certificate: "true"
+    check_filters: "region:EU"
+    check_contain: "google"
+    check_ids: "88522"
+    check_pause: "true"
+
+
   tasks:
     - name: Create uptime check
       ukcloud.pingdom.uptime_check:
-        #state: present
         apikey: "{{ apikey }}"
-        url: "www.google.co.uk"
+        host: "www.google.co.uk"
         name: "{{ check_name }}"
         protocol: "{{ check_protocol }}"
         tags: "{{ check_tags }}"
         timing: "{{ check_timing }}"
-        pause: y
+        port: "{{ check_port }}"
+        encryption: "{{ check_encryption }}"
+        verify_certificate: "{{ check_certificate }}"
+        probe_filters: "{{ check_filters }}"
+        shouldcontain: "{{ check_contain }}"
+        integrationids: "{{ check_ids }}"
+        pause: "{{ check_pause }}"
       register: check
 
-    - debug:
+    - name: Print response
+      debug:
         var: check
-
-    # - name: Modify uptime check
-    #   ukcloud.pingdom.uptime_check:
-    #     #state: present
-    #     apikey: "{{ apikey }}"
-    #     url: "{{ url }}"
-    #     name: "{{ name }}"
-    #     protocol: "{{ protocol }}"
-    #     tags: "{{ tags }}"
-    #     timing: "{{ timing }}"
-    #     pause: y
-    #   register: response
-
-
-
-    # - name: Delete uptime check
-    #   ukcloud.pingdom.uptime_check:
-    #     state: absent
-    #     uptimeid: xxx
