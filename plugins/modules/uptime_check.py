@@ -20,32 +20,74 @@ author: Jacob Gibbs (UKCloud Ltd)
 options:
     apikey:
         required: true
+        type: string
         description:
-            - api key to auth with Pingdom
-    url:
+            - The user's API key used to authorize the log in into Pingdom is taken as a string.
+    host:
         required: true
+        type: string
         description:
-            - Url of the host to check, eg www.google.com
+            - The host attribute contains the URL of the destination host which is being targeted by the uptime check. This attribute takes it's value as a string. (e.g. www.google.com).
     name:
         required: true
+        type: string
         description:
-            - Name of the check
+            - A name must be given to identify the uptime check as a string. The name does not have to be unique.
     protocol:
         required: true
+        type: string
         description:
-            - The protocol used for the check, eg http, ping etc
+            - The type of check taking place must be specified as a string (e.g. http, tcp, ping).
     tags:
-        required: true
+        required: false
+        type : string
         description:
-            - The tag(s) to add to the check separated with ,
+            - Tags can be added to an uptime check to make them more organized and discoverable in the user interface. This attribute takes an array of strings where each tag must have a maximum length of 64 characters.
     timing:
-        required: true
+        required: false
+        type: string
         description:
-            - The timing between the check running in minutes
+            - The user can specify the number of minutes between each check. This attribute takes an integer, but defaults to 5 if not specified.
+    port:
+        required: false
+        type: string
+        description:
+            - A specific port number can be targetted on the destination URL by setting setting the port number as an integer. 
+    encryption:
+        required: false
+        type: string
+        description:
+            - The user can specify whether the uptime check uses encryption. This attribute takes a boolean (True or False), but defaults to False if not specified.
+    verify_certificate:
+        required: false
+        type: string
+        description:
+            - An uptime check can treat the target site as down if it has an invalid or unverifiable certificate if the boolean verify_certificate attribute is set to True. If not specified, this attribute defaults to False.
+    probe_filters:
+        required: false
+        type: string
+        description:
+            - The user can specify filters used for probe selection as an array of strings. Currently only region is supported (e.g. region:EU)
+    shouldcontain:
+        required: false
+        type: string
+        description:
+            - The uptime check will only determine that the target site is up if it contains a specified string.
+    integrationids:
+        required: false
+        type: string
+        description:
+            - The user can connect integrations which have been set up in the UI to the uptime check by specifying the integration IDs as a list of integers.
+    url:
+        required: false
+        type: string
+        description:
+            - A path on the destination server can be set for the uptime check to target. This is taken as a string.
     pause:
         required: false
+        type: string
         description:
-            - Not Required. Please set to "y" to pause the check on creation for testing
+            - This attribute takes a boolean (True/False). If set to True, the created uptime check will not automatically run immediately. If not specified, this attribute defaults to False.
 notes:
     - More variables can be added following the above formatting and adding
       to the fields section within main
@@ -61,11 +103,18 @@ def main():
         ## Set input variables
         fields = {
                 "apikey": {"type": "str", "required": True, "no_log": True},
-                "url": {"type": "str", "required": True},
+                "host": {"type": "str", "required": True},
                 "name": {"type": "str", "required": True},
                 "protocol": {"type": "str", "required": True},
-                "tags": {"type": "str", "required": True},
-                "timing": {"type": "str", "required": True},
+                "tags": {"type": "str", "required": False},
+                "timing": {"type": "str", "required": False},
+                "port": {"type": "str", "required": False},
+                "encryption": {"type": "str", "required": False},
+                "verify_certificate": {"type": "str", "required": False},
+                "probe_filters": {"type": "str", "required": False},
+                "shouldcontain": {"type": "str", "required": False},
+                "integrationids": {"type": "str", "required": False},
+                "url": {"type": "str", "required": False},
                 "pause": {"type": "str", "required": False},
         }
 
@@ -75,23 +124,27 @@ def main():
         module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
         ## Assign params to more usable variables
         api_key = module.params['apikey']
-        check_url = module.params['url']
+        check_host = module.params['host']
         check_name = module.params['name']
         check_proto = module.params['protocol']
         check_tags = module.params['tags']
         check_timing = module.params['timing']
+        check_port = module.params['port']
+        check_encryption = module.params['encryption']
+        check_verification = module.params['verify_certificate']
+        check_filters = module.params['probe_filters']
+        check_contain = module.params['shouldcontain']
+        check_ids = module.params['integrationids']
+        check_url = module.params['url']
+        check_pause = module.params['pause']
         client = pingdompy.Client(apikey=api_key) 
 
-        ## Logic allowing for checks to be paused on creation for testing purposes
-        if module.params['pause'] == "y":
-                check_pause = True
-        else:
-                check_pause = False
-
         ## Creates the check and returns the new checks id + name
-        check = client.create_check({"host": check_url, "name": check_name, \
+        check = client.create_check({"host": check_host, "name": check_name, \
                 "type": check_proto, "tags": check_tags, "resolution": check_timing, \
-                "paused": check_pause})
+                "verify_certificate": check_verification, "probe_filters": check_filters, \
+                "shouldcontain": check_contain, "integrationids": check_ids, "url": check_url, \
+                "port": check_port, "encryption": check_encryption, "paused": check_pause})
 
         ## Returns verification to ansible
         module.exit_json(
