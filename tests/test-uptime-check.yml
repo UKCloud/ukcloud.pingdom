@@ -15,7 +15,7 @@
     check_certificate: "true"
     check_filters: "region:EU"
     check_contain: "google"
-    check_ids: "88522"
+    check_ids: ""
     check_pause: "true"
 
 
