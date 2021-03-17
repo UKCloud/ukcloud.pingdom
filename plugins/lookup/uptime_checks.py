@@ -1,13 +1,8 @@
-""" Lookup to get details of Pingdom Uptime Checks
-"""
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
-from ansible.errors import AnsibleError, AnsibleLookupError
-from ansible.plugins.lookup import LookupBase
-from ansible.utils.display import Display
-
-from ansible_collections.ukcloud.pingdom.plugins.module_utils.pingdom_api \
-    import get_checks
-
+# Copyright: (c) 2021, Andrew Garner
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = """
 lookup: uptime_checks
@@ -17,14 +12,16 @@ description:
 - Get details of uptime checks using the Pingdom API.
 - The default Pingdom API version is 3.1 which is the only supported version by this plugin.
 options:
-    api_token:
-        description: API token for authentication with Pingdom.
-        required: True
-        type: string
-    tags:
-        description: Comma-separated list of tags to filter the uptime checks returned.
-        required: False
-        type: string
+  api_token:
+    description:
+      - 'API token for authentication with Pingdom.'
+    required: true
+    type: 'string'
+  tags:
+    description:
+      - 'Comma-separated list of tags to filter the uptime checks returned.'
+    required: false
+    type: 'string'
 """
 
 EXAMPLES = """
@@ -51,9 +48,9 @@ EXAMPLES = """
       var: tagged_uptime_checks
 """
 
-RETURN = """
+RETURN = r"""
 checks:
-    description: List of checks from Pingdom
+    description: List of checks returned from Pingdom.
     type: list
     elements: dict
     contains:
@@ -61,23 +58,23 @@ checks:
             description: Unix epoch representation of when the uptime check was created.
             returned: always
             type: str
-            sample: '1548851044'
+            sample: 1548851044
         hostname:
             description: Domain name, including sub-domain, of the target for the uptime check.
             returned: always
             type: str
-            sample: 'google.com'
+            sample: google.com
         id:
             description: Unique identifier to the uptime check.
             returned: always
             type: str
             sample: '1234567'
-        ipv6: false
+        ipv6:
             description: Whether the uptime check uses ipv6 instead of ipv4.
             returned: always
             type: str
             sample: 'false'
-        lastdownend: 1615034565
+        lastdownend:
             description: Unix epoch representation of the end of the last downtime period.
             returned: Only returned if the uptime check has ever been considered down.
             type: str
@@ -129,22 +126,30 @@ checks:
             returned: always
             type: str
             sample: '5'
-        status: up
+        status:
             description: Whenther the uptime check is currently considered "up" or "down".
             returned: always
             type: str
             sample: 'down'
-        type: http
+        type:
             description: Protocol used by the uptime check, "http" or "https".
             returned: always
             type: str
             sample: 'https'
-        verify_certificate: true
+        verify_certificate:
             description: Whether to consider the validity of the endpoints ssl certificate in the uptime check status.
             returned: always
             type: str
             sample: 'true'
 """
+
+
+from ansible.errors import AnsibleError, AnsibleLookupError
+from ansible.plugins.lookup import LookupBase
+from ansible.utils.display import Display
+
+from ansible_collections.ukcloud.pingdom.plugins.module_utils.pingdom_api \
+    import get_checks
 
 
 class LookupModule(LookupBase):
