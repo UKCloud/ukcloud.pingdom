@@ -8,9 +8,9 @@ Note this repo is at a pre-release stage. Plugin names and parameters are likely
 
 ## Using this collection
 
-Use the following command to install this collection.
+Use the following command to install this collection. Update the tag on the end of the url to change release versions.
 
-`ansible-galaxy collection install git+https://github.com/UKCloud/ukcloud.pingdom`
+`ansible-galaxy collection install git+https://github.com/UKCloud/ukcloud.pingdom,0.2.0`
 
 
 This collection uses the python `pingdompy` library, the source can be found at [https://github.com/UKCloud/pingdompy](https://github.com/UKCloud/pingdompy). This library needs to be available to the python interpreter running Ansible. One way to do this is to use pip to install Ansible and the pingdompy library.
