@@ -16,7 +16,7 @@ description:
     - The pause option may be set to "y" to allow for checks to
       be created but instantly paused for testing purposes, otherwise
       this variable can be ommitted
-author: Jacob Gibbs and Reiss Jarvis(UKCloud Ltd)
+author: Jacob Gibbs and Reiss Jarvis (UKCloud Ltd)
 options:
     apikey:
         required: true
