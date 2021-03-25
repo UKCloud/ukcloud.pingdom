@@ -23,18 +23,23 @@ options:
         type: string
         description:
             - The user's API key used to authorize the log in into Pingdom is taken as a string.
+    uptimeid:
+        required: false
+        type: string
+        description:
+            - 
     host:
-        required: true
+        required: false
         type: string
         description:
             - The host attribute contains the URL of the destination host which is being targeted by the uptime check. This attribute takes it's value as a string. (e.g. www.google.com).
     name:
-        required: true
+        required: false
         type: string
         description:
             - A name must be given to identify the uptime check as a string. The name does not have to be unique.
     protocol:
-        required: true
+        required: false
         type: string
         description:
             - The type of check taking place must be specified as a string (e.g. http, tcp, ping).
@@ -99,29 +104,8 @@ import pingdompy
 import datetime
 from ansible.module_utils.basic import AnsibleModule
 
-def main():
-        ## Set input variables
-        fields = {
-                "apikey": {"type": "str", "required": True, "no_log": True},
-                "host": {"type": "str", "required": True},
-                "name": {"type": "str", "required": True},
-                "protocol": {"type": "str", "required": True},
-                "tags": {"type": "str", "required": False},
-                "timing": {"type": "str", "required": False},
-                "port": {"type": "str", "required": False},
-                "encryption": {"type": "str", "required": False},
-                "verify_certificate": {"type": "str", "required": False},
-                "probe_filters": {"type": "str", "required": False},
-                "shouldcontain": {"type": "str", "required": False},
-                "integrationids": {"type": "str", "required": False},
-                "url": {"type": "str", "required": False},
-                "pause": {"type": "str", "required": False},
-        }
-
-        ###### Further variables could be added above and below to allow
-        ###### for more complex checks to be added
-
-        module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
+def create_new_check():
+            module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
         ## Assign params to more usable variables
         api_key = module.params['apikey']
         check_host = module.params['host']
@@ -151,6 +135,35 @@ def main():
                 changed=True,
                 response=check
         )
+
+def update_current_check():
+
+def main():
+        ## Set input variables
+        fields = {
+                "apikey": {"type": "str", "required": True, "no_log": True},
+                "uptimeid": {"type": "str", "required": False},
+                "host": {"type": "str", "required": False},
+                "name": {"type": "str", "required": False},
+                "protocol": {"type": "str", "required": False},
+                "tags": {"type": "str", "required": False},
+                "timing": {"type": "str", "required": False},
+                "port": {"type": "str", "required": False},
+                "encryption": {"type": "str", "required": False},
+                "verify_certificate": {"type": "str", "required": False},
+                "probe_filters": {"type": "str", "required": False},
+                "shouldcontain": {"type": "str", "required": False},
+                "integrationids": {"type": "str", "required": False},
+                "url": {"type": "str", "required": False},
+                "pause": {"type": "str", "required": False},
+        }
+
+        ###### Further variables could be added above and below to allow
+        ###### for more complex checks to be added
+
+        if 
+
+
 
 if __name__ == '__main__':
         main()
