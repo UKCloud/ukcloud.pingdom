@@ -104,39 +104,56 @@ import pingdompy
 import datetime
 from ansible.module_utils.basic import AnsibleModule
 
-def create_new_check():
-            module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
-        ## Assign params to more usable variables
-        api_key = module.params['apikey']
-        check_host = module.params['host']
-        check_name = module.params['name']
-        check_proto = module.params['protocol']
-        check_tags = module.params['tags']
-        check_timing = module.params['timing']
-        check_port = module.params['port']
-        check_encryption = module.params['encryption']
-        check_verification = module.params['verify_certificate']
-        check_filters = module.params['probe_filters']
-        check_contain = module.params['shouldcontain']
-        check_ids = module.params['integrationids']
-        check_url = module.params['url']
-        check_pause = module.params['pause']
-        client = pingdompy.Client(apikey=api_key) 
+def create_new_check(module.params):
+    module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
+    ## Assign params to more usable variables
+    api_key = module.params['apikey']
+    check_host = module.params['host']
+    check_name = module.params['name']
+    check_proto = module.params['protocol']
+    check_tags = module.params['tags']
+    check_timing = module.params['timing']
+    check_port = module.params['port']
+    check_encryption = module.params['encryption']
+    check_verification = module.params['verify_certificate']
+    check_filters = module.params['probe_filters']
+    check_contain = module.params['shouldcontain']
+    check_ids = module.params['integrationids']
+    check_url = module.params['url']
+    check_pause = module.params['pause']
+    client = pingdompy.Client(apikey=api_key) 
+    ## Creates the check and returns the new checks id + name
+    check = client.create_check({"host": check_host, "name": check_name, \
+        "type": check_proto, "tags": check_tags, "resolution": check_timing, \
+        "verify_certificate": check_verification, "probe_filters": check_filters, \
+        "shouldcontain": check_contain, "integrationids": check_ids, "url": check_url, \
+        "port": check_port, "encryption": check_encryption, "paused": check_pause})
 
-        ## Creates the check and returns the new checks id + name
-        check = client.create_check({"host": check_host, "name": check_name, \
-                "type": check_proto, "tags": check_tags, "resolution": check_timing, \
-                "verify_certificate": check_verification, "probe_filters": check_filters, \
-                "shouldcontain": check_contain, "integrationids": check_ids, "url": check_url, \
-                "port": check_port, "encryption": check_encryption, "paused": check_pause})
+    ## Find a way to check if it has changed.
+    has_changed = True
+    finish(has_changed, check)
 
-        ## Returns verification to ansible
+def update_current_check(module.params, requested_id):
+    module.params.pop("apikey")
+
+    changes = {}
+    for x in module.params:
+        if module.params.get(x) != None:
+            changes[x] = module.params.get(x)
+        else:
+            continue
+    
+    check = client.update_check(requested_id, changes)
+    has_changed = isinstance(update, list)
+    finish(has_changed, check)
+
+
+def finish(has_changed, check):
         module.exit_json(
-                changed=True,
-                response=check
-        )
-
-def update_current_check():
+        ## if update_check returns a list, then the update worked
+        changed = has_changed
+        response = check
+    )
 
 def main():
         ## Set input variables
@@ -160,9 +177,30 @@ def main():
 
         ###### Further variables could be added above and below to allow
         ###### for more complex checks to be added
+        module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
 
-        if 
+        requested_id = module.params.pop("uptimeid")
+        api_key = module.params("apikey")
+        uptime_name = module.params("uptimeid")
+        does_exist = False
 
+        client = pingdompy.Client(apikey=api_key)
+
+        check_list = client.get_checks()["checks"]
+
+        if requested_id:
+            for x in check_list:
+                if requested_id = check_list[x].id:
+                    update_current_check(module.params, requested_id)
+        elif uptime_name:
+            for x in check_list:
+                if uptime_name = check_list[x].name:
+                    does_exist = True
+                    update_current_check(module.params, requested_id)
+            if does_exist = False:
+                create_new_check(module.params)
+        else:
+            ## Return error that the user needs to include either an uptimeid or a name
 
 
 if __name__ == '__main__':
