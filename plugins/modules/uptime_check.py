@@ -150,7 +150,7 @@ def update_current_check(module, requested_id):
 
 
 def finish(has_changed, check):
-        module.exit_json(
+    module.exit_json(
         ## if update_check returns a list, then the update worked
         changed = has_changed
         response = check
