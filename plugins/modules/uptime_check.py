@@ -182,7 +182,7 @@ def main():
 
         requested_id = module.params.pop("uptimeid")
         api_key = module.params["apikey"]
-        uptime_name = module.params["uptimeid"]
+        uptime_name = module.params["name"]
         does_exist = False
 
         client = pingdompy.Client(apikey=api_key)
