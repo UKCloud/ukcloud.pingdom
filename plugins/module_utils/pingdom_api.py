@@ -63,7 +63,7 @@ def create_bearer_token_header(api_token):
 def get_checks(api_token, tags):
     headers = create_bearer_token_header(api_token)
     display.debug(f"DEBUG: Calling url {CHECKS_URL}")
-    if tags:
+    if tags != "None":
         url = f"{CHECKS_URL}?tags={tags}"
     else:
         url = CHECKS_URL

@@ -187,7 +187,7 @@ def main():
 
         client = pingdompy.Client(apikey=api_key)
 
-        check_list = client.get_checks(tags=None)["checks"]
+        check_list = client.get_checks(tags="None")["checks"]
 
         if requested_id:
             for x in check_list:
