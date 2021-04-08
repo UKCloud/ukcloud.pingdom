@@ -191,14 +191,14 @@ def main():
 
         if requested_id:
             for x in check_list:
-                if requested_id = check_list[x].id:
+                if requested_id == check_list[x].id:
                     update_current_check(module, requested_id)
         elif uptime_name:
             for x in check_list:
-                if uptime_name = check_list[x].name:
+                if uptime_name == check_list[x].name:
                     does_exist = True
                     update_current_check(module, requested_id)
-            if does_exist = False:
+            if does_exist == False:
                 create_new_check(module)
             ## Return error that the user needs to include either an uptimeid or a name
 
