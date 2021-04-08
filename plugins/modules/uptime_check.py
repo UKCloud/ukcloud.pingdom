@@ -199,7 +199,6 @@ def main():
                     update_current_check(module.params, requested_id)
             if does_exist = False:
                 create_new_check(module.params)
-        else:
             ## Return error that the user needs to include either an uptimeid or a name
 
 
