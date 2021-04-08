@@ -105,7 +105,7 @@ import pingdompy
 import datetime
 from ansible.module_utils.basic import AnsibleModule
 
-def create_new_check(module.params):
+def create_new_check(module):
     module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
     ## Assign params to more usable variables
     api_key = module.params['apikey']
@@ -134,7 +134,7 @@ def create_new_check(module.params):
     has_changed = True
     finish(has_changed, check)
 
-def update_current_check(module.params, requested_id):
+def update_current_check(module, requested_id):
     module.params.pop("apikey")
 
     changes = {}
@@ -192,14 +192,14 @@ def main():
         if requested_id:
             for x in check_list:
                 if requested_id = check_list[x].id:
-                    update_current_check(module.params, requested_id)
+                    update_current_check(module, requested_id)
         elif uptime_name:
             for x in check_list:
                 if uptime_name = check_list[x].name:
                     does_exist = True
-                    update_current_check(module.params, requested_id)
+                    update_current_check(module, requested_id)
             if does_exist = False:
-                create_new_check(module.params)
+                create_new_check(module)
             ## Return error that the user needs to include either an uptimeid or a name
 
 
