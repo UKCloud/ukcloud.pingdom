@@ -107,6 +107,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 def create_new_check(module):
     module = AnsibleModule(argument_spec=fields, supports_check_mode=False)
+
     ## Assign params to more usable variables
     api_key = module.params['apikey']
     check_host = module.params['host']
@@ -123,6 +124,7 @@ def create_new_check(module):
     check_url = module.params['url']
     check_pause = module.params['pause']
     client = pingdompy.Client(apikey=api_key) 
+
     ## Creates the check and returns the new checks id + name
     check = client.create_check({"host": check_host, "name": check_name, \
         "type": check_proto, "tags": check_tags, "resolution": check_timing, \
@@ -130,7 +132,8 @@ def create_new_check(module):
         "shouldcontain": check_contain, "integrationids": check_ids, "url": check_url, \
         "port": check_port, "encryption": check_encryption, "paused": check_pause})
 
-    ## Find a way to check if it has changed.
+    ## Send report as to whether the change has happened.
+    ## ! Edit has_changed to actually check if the change happened
     has_changed = True
     finish(has_changed, check)
 
@@ -144,15 +147,16 @@ def update_current_check(module, requested_id):
         else:
             continue
     
+    ## Send report as to whether the change has happened.
     check = client.update_check(requested_id, changes)
     has_changed = isinstance(update, list)
     finish(has_changed, check)
 
 
 def finish(has_changed, check):
-            ## if update_check returns a list, then the update worked
+    ## Report back to the user whether the change has gone through.
     module.exit_json(
-        changed = True,
+        changed = has_changed,
         response = check
     )
 
@@ -187,17 +191,23 @@ def main():
 
         client = pingdompy.Client(apikey=api_key)
 
-        check_list = client.get_checks(tags="None")["checks"]
+        ## ! Need to look at how to make get_checks not require tags
+        check_list = client.get_checks()["checks"]
 
+        ## Logic to determine if the uptime check already exists.
+
+        ## If an ID is passed through find the check with the matching ID.
         if requested_id:
             for x in check_list:
                 if requested_id == check_list[x].id:
                     update_current_check(module, requested_id)
+        ## If no ID is passed find the check with a matching name instead.
         elif uptime_name:
             for x in check_list:
                 if uptime_name == check_list[x].name:
                     does_exist = True
                     update_current_check(module, requested_id)
+            ## If there's no matching name, create a new check.
             if does_exist == False:
                 create_new_check(module)
             ## Return error that the user needs to include either an uptimeid or a name
